@@ -45,6 +45,9 @@
       "@vue/standard",
       "@vue/typescript/recommended"
     ],
+    "rules": {
+      "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }]
+    },
     "parserOptions": {
       "ecmaVersion": 2020
     }
