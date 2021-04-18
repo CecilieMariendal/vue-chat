@@ -4,6 +4,8 @@
       <h1>Walkie talkie</h1>
       <p>Realtime voice chat</p>
     </header>
+
+    <router-view></router-view>
   </div>
 </template>
 
