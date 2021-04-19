@@ -1,23 +1,25 @@
 <template>
     <div>
         <h2>Home.vue</h2>
-
-        <User v-slot:user="{user}">
-            <div v-if="user">
-                Logged in as {{user.uid}}
-            </div>
-            <Login v-else />
+    
+        <User>
+            <template v-slot:user="{user}">
+                <UserProfile v-if="user" :user="user"/>
+                <Login v-else />
+            </template>
         </User>
     </div>
 </template>
 
 <script>
 import User from './User'
+import UserProfile from './UserProfile'
 import Login from './Login'
 
 export default {
     components: {
         User,
+        UserProfile,
         Login,
     }
 }
