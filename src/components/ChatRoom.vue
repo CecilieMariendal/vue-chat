@@ -1,0 +1,75 @@
+<template>
+    <main>
+        <h3>Welcome to ChatRoom.vue {{chatId}}</h3>
+        
+        <User>
+            <template #user="{user}">
+                <div v-if="user">
+                    <ul>
+                        <li v-for="message of messages" :key="message.id">
+                            {{message.text}}
+                        </li>
+                    </ul>
+
+                    <input type="text" v-model="newMessageText">
+
+                    <button
+                        :disabled="!newMessageText || loading"
+                        @click="addMessage(user.uid)"
+                    >Send</button>
+                </div>
+                <Login v-else />
+            </template>
+        </User>
+        <router-link to="/">Back</router-link>
+    </main>
+</template>
+
+<script>
+import User from './User'
+import Login from './Login'
+import {db} from '../firebase'
+
+export default {
+    components: {
+        User,
+        Login
+    },
+    computed: {
+        chatId() {
+            return this.$route.params.id
+        },
+        messageCollection() {
+            return db.doc(`chats/${this.chatId}`).collection('messages')
+        }
+    },
+    data() {
+        return {
+            newMessageText: '',
+            loading: false,
+            messages: [],
+        }
+    },
+    firestore() {
+        return {
+            messages: this.messageCollection.orderBy('createdAt').limitToLast(10)
+        }
+    },
+    methods: {
+        async addMessage(uid) {
+            this.loading = true
+
+            const {id: messageId} = this.messageCollection.doc();
+
+            await this.messageCollection.doc(messageId).set({
+                text: this.newMessageText,
+                id: uid,
+                createdAt: Date.now(),
+            });
+
+            this.loading = false;
+            this.newMessageText = '';
+        }
+    }
+}
+</script>
