@@ -3,7 +3,7 @@
         <h2>Home.vue</h2>
     
         <User>
-            <template v-slot:user="{user}">
+            <template #user="{user}">
                 <div v-if="user">
                     <UserProfile :user="user"/>
                     <ChatList :uid="user.uid" />
@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import User from './User'
-import UserProfile from './UserProfile'
-import ChatList from './ChatList'
-import Login from './Login'
+import User from '../components/User'
+import UserProfile from '../components/UserProfile'
+import ChatList from '../components/ChatList'
+import Login from '../components/Login'
 
 export default {
     components: {

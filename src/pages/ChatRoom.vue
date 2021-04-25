@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import User from './User'
-import Login from './Login'
+import User from '../components/User'
+import Login from '../components/Login'
 import {db} from '../firebase'
 
 export default {

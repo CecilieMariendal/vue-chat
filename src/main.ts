@@ -4,8 +4,8 @@ import VueCompositionApi from '@vue/composition-api'
 import { firestorePlugin } from 'vuefire'
 import App from './App.vue'
 
-import Home from './components/Home.vue'
-import ChatRoom from './components/ChatRoom.vue'
+import Home from './pages/Home.vue'
+import ChatRoom from './pages/ChatRoom.vue'
 
 Vue.use(VueCompositionApi)
 Vue.use(VueRouter)
