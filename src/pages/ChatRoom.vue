@@ -11,12 +11,13 @@
                         </li>
                     </ul>
 
-                    <input type="text" v-model="newMessageText">
+                    <form @submit.prevent="addMessage(user.uid)">
+                        <input type="text" v-model="newMessageText">
 
-                    <button
-                        :disabled="!newMessageText || loading"
-                        @click="addMessage(user.uid)"
-                    >Send</button>
+                        <button type="submit" :disabled="!newMessageText || loading">
+                            Send
+                        </button>
+                    </form>
                 </div>
                 <Login v-else />
             </template>
