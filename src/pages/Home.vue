@@ -1,7 +1,6 @@
 <template>
-    <div>
-        <h2>Home.vue</h2>
-    
+    <main>
+        <h2>Home</h2>
         <User>
             <template #user="{user}">
                 <div v-if="user">
@@ -12,7 +11,7 @@
                 <Login v-else />
             </template>
         </User>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -30,3 +29,14 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+main {
+    padding: 8px;
+
+    h2 {
+        margin-top: 0;
+        text-align: center;
+    }
+}
+</style>

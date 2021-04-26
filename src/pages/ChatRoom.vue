@@ -1,7 +1,6 @@
 <template>
     <main>
-        <h3>Welcome to ChatRoom.vue {{chatId}}</h3>
-        
+        <h3>ChatRoom: {{chatId}}</h3>
         <User>
             <template #user="{user}">
                 <div v-if="user">
@@ -22,7 +21,6 @@
                 <Login v-else />
             </template>
         </User>
-        <router-link to="/">Back</router-link>
     </main>
 </template>
 
@@ -74,3 +72,29 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+main {
+    max-width: 500px;
+    margin: auto;
+
+    h3 {
+        text-align: center;
+    }
+    
+    ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        padding: 0;
+    }
+
+    form {
+        display: flex;
+
+        input {
+            flex: 1;
+        }
+    }
+}
+</style>
