@@ -6,7 +6,7 @@
                 <div v-if="user">
                     <ul>
                         <li v-for="message of messages" :key="message.id">
-                            {{message.text}}
+                            <ChatMessage :message="message.text" :messageTx="message.sender === user.uid"></ChatMessage>
                         </li>
                     </ul>
 
@@ -26,12 +26,14 @@
 
 <script>
 import User from '../components/User'
+import ChatMessage from '../components/ChatMessage'
 import Login from '../components/Login'
 import {db} from '../firebase'
 
 export default {
     components: {
         User,
+        ChatMessage,
         Login
     },
     computed: {
@@ -62,7 +64,7 @@ export default {
 
             await this.messageCollection.doc(messageId).set({
                 text: this.newMessageText,
-                id: uid,
+                sender: uid,
                 createdAt: Date.now(),
             });
 
@@ -83,10 +85,12 @@ main {
     }
     
     ul {
-        display: flex;
-        flex-direction: column;
         list-style: none;
         padding: 0;
+
+        li {
+            display: flex;
+        }
     }
 
     form {
