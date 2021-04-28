@@ -6,7 +6,7 @@
                 <div v-if="user">
                     <ul>
                         <li v-for="message of messages" :key="message.id">
-                            <ChatMessage :message="message.text" :messageTx="message.sender === user.uid"></ChatMessage>
+                            <ChatMessage :message="message.text" :messageTx="message.sender === user.uid" :audioUrl="message.audioUrl"></ChatMessage>
                         </li>
                     </ul>
 
@@ -36,7 +36,7 @@
 import User from '../components/User'
 import ChatMessage from '../components/ChatMessage'
 import Login from '../components/Login'
-import {db} from '../firebase'
+import {db, storage} from '../firebase'
 
 export default {
     components: {
@@ -104,16 +104,31 @@ export default {
         async addMessage(uid) {
             this.loading = true
 
+            let audioUrl = null;
+
             const {id: messageId} = this.messageCollection.doc();
 
+            if (this.newAudio) {
+                const storageRef = storage
+                    .ref('chats')
+                    .child(this.chatId)
+                    .child(`${messageId}.wav`)
+
+                await storageRef.put(this.newAudio)
+
+                audioUrl = await storageRef.getDownloadURL();
+            }
+            console.log(audioUrl);
             await this.messageCollection.doc(messageId).set({
                 text: this.newMessageText,
                 sender: uid,
                 createdAt: Date.now(),
+                audioUrl,
             });
 
             this.loading = false;
             this.newMessageText = '';
+            this.newAudio = null;
         }
     }
 }

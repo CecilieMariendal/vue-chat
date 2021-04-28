@@ -1,12 +1,14 @@
 <template>
     <div class="message" :class="{'message-tx': messageTx}">
         {{message}}
+
+        <audio v-if="audioUrl" :src="audioUrl" controls></audio>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['message', 'messageTx'],
+    props: ['message', 'messageTx', 'audioUrl'],
 }
 </script>
 
