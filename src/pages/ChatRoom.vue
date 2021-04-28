@@ -12,11 +12,19 @@
 
                     <form @submit.prevent="addMessage(user.uid)">
                         <input type="text" v-model="newMessageText">
+                        
+                        <label>
+                            Record Audio
+                            <button v-if="!recorder" @click="record()" type="button" class="record">Record</button>
+                            <button v-else type="button" @click="stop()" class="stop">Stop</button>
+                        </label>
 
                         <button type="submit" :disabled="!newMessageText || loading">
                             Send
                         </button>
                     </form>
+
+                    <audio v-if="newAudio" :src="newAudioUrl" controls></audio>
                 </div>
                 <Login v-else />
             </template>
@@ -42,6 +50,9 @@ export default {
         },
         messageCollection() {
             return db.doc(`chats/${this.chatId}`).collection('messages')
+        },
+        newAudioUrl() {
+            return URL.createObjectURL(this.newAudio)
         }
     },
     data() {
@@ -49,6 +60,8 @@ export default {
             newMessageText: '',
             loading: false,
             messages: [],
+            newAudio: null,
+            recorder: null,
         }
     },
     firestore() {
@@ -57,6 +70,34 @@ export default {
         }
     },
     methods: {
+        async record() {
+            this.newAudio = null;
+
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: false,
+            })
+
+            const options = {MimeType: 'audio/webm'}
+            const recordedChunk = [];
+            this.recorder = new MediaRecorder(stream, options)
+
+            this.recorder.addEventListener('dataavailable', (event) => {
+                if (event.data.size > 0) {
+                    recordedChunk.push(event.data)
+                }
+            })
+
+            this.recorder.addEventListener('stop', () => {
+                this.newAudio = new Blob(recordedChunk)
+            })
+
+            this.recorder.start()
+        },
+        async stop() {
+            this.recorder.stop();
+            this.recorder = null
+        },
         async addMessage(uid) {
             this.loading = true
 
