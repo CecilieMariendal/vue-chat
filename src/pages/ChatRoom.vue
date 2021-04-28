@@ -61,6 +61,7 @@ export default {
             loading: false,
             messages: [],
             newAudio: null,
+            stream: null,
             recorder: null,
         }
     },
@@ -73,14 +74,14 @@ export default {
         async record() {
             this.newAudio = null;
 
-            const stream = await navigator.mediaDevices.getUserMedia({
+            this.stream = await navigator.mediaDevices.getUserMedia({
                 audio: true,
                 video: false,
             })
 
             const options = {MimeType: 'audio/webm'}
             const recordedChunk = [];
-            this.recorder = new MediaRecorder(stream, options)
+            this.recorder = new MediaRecorder(this.stream, options)
 
             this.recorder.addEventListener('dataavailable', (event) => {
                 if (event.data.size > 0) {
@@ -95,6 +96,8 @@ export default {
             this.recorder.start()
         },
         async stop() {
+            this.stream.getTracks().forEach(track => track.stop())
+            this.stream = null;
             this.recorder.stop();
             this.recorder = null
         },
