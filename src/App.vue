@@ -22,11 +22,16 @@ export default class App extends Vue {}
 </script>
 
 <style lang="scss">
+html,
 body {
+  height: 100vh;
   margin: 0;
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

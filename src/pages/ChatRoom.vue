@@ -3,29 +3,32 @@
         <h3>ChatRoom: {{chatId}}</h3>
         <User>
             <template #user="{user}">
-                <div v-if="user">
+                <template v-if="user">
                     <ul>
                         <li v-for="message of messages" :key="message.id">
-                            <ChatMessage :message="message.text" :messageTx="message.sender === user.uid" :audioUrl="message.audioUrl"></ChatMessage>
+                            <ChatMessage :message="message.text" :messageTx="message.sender === user.uid" :audioUrl="message.audioUrl" />
                         </li>
                     </ul>
 
+                    <div v-if="newAudio" class="audio">
+                        <audio :src="newAudioUrl" controls></audio>
+                    </div>
+
                     <form @submit.prevent="addMessage(user.uid)">
-                        <input type="text" v-model="newMessageText">
-                        
-                        <label>
-                            Record Audio
+                        <div class="toolbar">
                             <button v-if="!recorder" @click="record()" type="button" class="record">Record</button>
                             <button v-else type="button" @click="stop()" class="stop">Stop</button>
-                        </label>
+                        </div>
 
-                        <button type="submit" :disabled="!newMessageText || loading">
-                            Send
-                        </button>
+                        <input type="text" v-model="newMessageText">
+                        
+                        <div class="action">
+                            <button type="submit" :disabled="!newMessageText || loading">
+                                Send
+                            </button>
+                        </div>
                     </form>
-
-                    <audio v-if="newAudio" :src="newAudioUrl" controls></audio>
-                </div>
+                </template>
                 <Login v-else />
             </template>
         </User>
@@ -33,10 +36,10 @@
 </template>
 
 <script>
-import User from '../components/User'
-import ChatMessage from '../components/ChatMessage'
-import Login from '../components/Login'
-import {db, storage} from '../firebase'
+import User from '../components/User';
+import ChatMessage from '../components/ChatMessage';
+import Login from '../components/Login';
+import {db, storage} from '../firebase';
 
 export default {
     components: {
@@ -46,13 +49,13 @@ export default {
     },
     computed: {
         chatId() {
-            return this.$route.params.id
+            return this.$route.params.id;
         },
         messageCollection() {
-            return db.doc(`chats/${this.chatId}`).collection('messages')
+            return db.doc(`chats/${this.chatId}`).collection('messages');
         },
         newAudioUrl() {
-            return URL.createObjectURL(this.newAudio)
+            return URL.createObjectURL(this.newAudio);
         }
     },
     data() {
@@ -67,7 +70,7 @@ export default {
     },
     firestore() {
         return {
-            messages: this.messageCollection.orderBy('createdAt').limitToLast(10)
+            messages: this.messageCollection.orderBy('createdAt').limitToLast(10),
         }
     },
     methods: {
@@ -77,32 +80,34 @@ export default {
             this.stream = await navigator.mediaDevices.getUserMedia({
                 audio: true,
                 video: false,
-            })
+            });
 
-            const options = {MimeType: 'audio/webm'}
+            const options = {MimeType: 'audio/webm'};
             const recordedChunk = [];
-            this.recorder = new MediaRecorder(this.stream, options)
+            this.recorder = new MediaRecorder(this.stream, options);
 
             this.recorder.addEventListener('dataavailable', (event) => {
                 if (event.data.size > 0) {
                     recordedChunk.push(event.data)
                 }
-            })
-
+            });
+            
             this.recorder.addEventListener('stop', () => {
                 this.newAudio = new Blob(recordedChunk)
-            })
+            });
 
-            this.recorder.start()
+            this.recorder.start();
         },
         async stop() {
-            this.stream.getTracks().forEach(track => track.stop())
+            this.stream.getTracks().forEach((track) => {
+                track.stop();
+            });
             this.stream = null;
             this.recorder.stop();
-            this.recorder = null
+            this.recorder = null;
         },
         async addMessage(uid) {
-            this.loading = true
+            this.loading = true;
 
             let audioUrl = null;
 
@@ -118,7 +123,7 @@ export default {
 
                 audioUrl = await storageRef.getDownloadURL();
             }
-            console.log(audioUrl);
+            
             await this.messageCollection.doc(messageId).set({
                 text: this.newMessageText,
                 sender: uid,
@@ -136,27 +141,77 @@ export default {
 
 <style lang="scss" scoped>
 main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     max-width: 500px;
-    margin: auto;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #f9f9f9;
 
     h3 {
         text-align: center;
     }
     
-    ul {
-        list-style: none;
-        padding: 0;
-
-        li {
-            display: flex;
-        }
-    }
-
-    form {
+    > div {
+        flex: 1;
         display: flex;
+        flex-direction: column;
 
-        input {
+        ul {
             flex: 1;
+            list-style: none;
+            margin: 0;
+            padding: 12px 0;
+            border: 1px solid lightgray;
+
+            li {
+                display: flex;
+            }
+        }
+
+        .audio {
+            padding: 1vh;
+
+            audio {
+                width: 100%;
+            }
+        }
+    
+        form {
+            display: flex;
+            align-items: stretch;
+            padding: 1vh 1vw;
+            box-sizing: border-box;
+
+            div {
+                display: flex;
+
+                &.toolbar { padding-right: 2vw; }
+                &.action { padding-left: 2vw; }
+
+                button {
+                    height: 100%;
+                    background-color: white;
+                    border-radius: 4px;
+                    font-size: 1rem;
+                }
+            }
+
+            input {
+                flex: 1;
+                background-color: #e7e7e7;
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+                border: 1px solid transparent;
+                border-radius: 4rem;
+                outline: none;
+                transition: border-color 0.2s;
+
+                &:focus {
+                    border: 1px solid grey;
+                }
+            }
         }
     }
 }
