@@ -16,7 +16,9 @@
 
                     <form @submit.prevent="addMessage(user.uid)">
                         <div class="toolbar">
-                            <button v-if="!recorder" @click="record()" type="button" class="record">Record</button>
+                            <button v-if="!recorder" @click="record()" type="button" class="record">
+                                <font-awesome-icon :icon="['fas', 'microphone']" />
+                            </button>
                             <button v-else type="button" @click="stop()" class="stop">Stop</button>
                         </div>
 
@@ -24,7 +26,7 @@
                         
                         <div class="action">
                             <button type="submit" :disabled="!newMessageText || loading">
-                                Send
+                                <font-awesome-icon :icon="['fas', 'paper-plane']" />
                             </button>
                         </div>
                     </form>
