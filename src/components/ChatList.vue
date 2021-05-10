@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h3>Chats</h3>
         <ul>
             <li v-for="chat of chats" :key="chat.id">
                 <router-link :to="{name: 'chat', params: {id: chat.id}}">{{chat.id}}</router-link>
@@ -36,3 +37,18 @@ export default {
     props: ['uid']
 }
 </script>
+
+<style lang="scss" scoped>
+ul {
+    padding: 0;
+    list-style: none;
+    
+    li  {
+        margin: 1rem 0;
+    }
+}
+
+button {
+    margin-top: 1.5rem;
+}
+</style>

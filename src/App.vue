@@ -41,6 +41,9 @@ body {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
     padding: 8px;
 
     h1 {

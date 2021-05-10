@@ -1,6 +1,5 @@
 <template>
     <main>
-        <h2>Home</h2>
         <User>
             <template #user="{user}">
                 <div v-if="user">
@@ -30,13 +29,25 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
     padding: 8px;
 
     h2 {
         margin-top: 0;
         text-align: center;
+    }
+
+    button {
+        background-color: white;
+        border-radius: 4px;
+        font-size: 1rem;
     }
 }
 </style>
