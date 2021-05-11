@@ -1,33 +1,31 @@
 <template>
     <aside>
-        <h3>Sign in Anonymously</h3>
-        <button @click="auth.signInAnonymously()">Sign in</button>
+        <h3 v-if="newUser">Sign up</h3>
+        <h3 v-else>Sign in</h3>
 
-        <div v-if="newUser">
-            <h3>Sign in with a new account</h3>
-            <a href="#" @click="newUser = false">Returning user?</a>
-        </div>
+        <button v-if="!newUser" @click="auth.signInAnonymously()">Continue anonymously</button>
 
-        <div v-else>
-            <h3>Sign in with Email</h3>
-            <a href="#" @click="newUser = true">New user?</a>
-        </div>
 
         <label for="email">
-            Email
-            <input v-model="email" type="email" placeholder="Email">
+            <span>Email</span>
+            <input v-model="email" type="email" placeholder="Enter email">
         </label>
 
         <label for="password">
-            Password
-            <input v-model="password" type="password" placeholder="Password">
+            <span>Password</span>
+            <input v-model="password" type="password" placeholder="Enter password">
         </label>
 
+        <p v-if="errorMessage" class="error-message">{{errorMessage}}</p>
         <button :class="{loading}" @click="signInOrCreateUser">
-            {{newUser ? 'Sign up' : 'login'}}
+            {{newUser ? 'Sign up' : 'Sign in'}}
         </button>
 
-        <p v-if="errorMessage">{{errorMessage}}</p>
+
+        <p>
+            <a v-if="newUser" href="#" @click="newUser = false">Returning user? Sign in</a>
+            <a v-else href="#" @click="newUser = true">New user? Sign up</a>
+        </p>
     </aside>
 </template>
 
@@ -65,3 +63,47 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+aside {
+    h3 {
+        margin-top: 0;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+
+        input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            height: 2.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0 0.75rem;
+            border: none;
+            border-radius: 4pxpx;
+            background-color: #efefef;
+        }
+    }
+
+    button {
+        margin-bottom: 1rem;
+        display: block;
+        width: 100%;
+        height: 2.5rem;
+    }
+
+    p {
+        text-align: center;
+
+        &.error-message {
+            color: rgb(215, 15, 15);
+            font-weight: 700;
+        }
+        
+        a {
+            display: inline-block;
+        }
+    }
+}
+</style>

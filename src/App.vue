@@ -45,6 +45,7 @@ body {
     max-width: 500px;
     margin: 0 auto;
     padding: 8px;
+    box-sizing: border-box;
 
     h1 {
       margin: 0rem;

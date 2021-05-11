@@ -38,6 +38,7 @@ main {
     width: 100%;
     margin: 0 auto;
     padding: 8px;
+    box-sizing: border-box;
 
     h2 {
         margin-top: 0;
