@@ -5,20 +5,31 @@
 </template>
 
 <script>
-import {auth} from '../firebase'
+import {auth, db} from '../firebase'
 import {ref} from '@vue/composition-api'
 
 export default {
     setup() {
-        const user = ref(null)
-        const unsubscribe = auth.onAuthStateChanged(firebaseUser => user.value = firebaseUser)
+        const user = ref(null);
+        const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+            user.value = firebaseUser
+            
+            const snapshot = await db.collection('usernames')
+                .where('uid', '==', firebaseUser.uid)
+                .limit(1)
+                .get();
+                
+                if (snapshot.docs.length) {
+                    user.value.username = snapshot.docs[0].id;
+                }
+        })
+
 
         return {
             user,
-            unsubscribe
+            unsubscribe,
         }
     },
-
     unmounted() {
         this.unsubscribe()
     }

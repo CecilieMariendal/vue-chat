@@ -26,16 +26,6 @@ export default {
         }
     },
     props: ['user'],
-    async created() {
-        const snapshot = await db.collection('usernames')
-            .where('uid', '==', this.user.uid)
-            .limit(1)
-            .get();
-
-        if (snapshot.docs.length) {
-            this.username = snapshot.docs[0].id;
-        }
-    },
     methods: {
         async checkUsername() {
             if (this.username.length) {
