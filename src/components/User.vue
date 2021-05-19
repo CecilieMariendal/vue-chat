@@ -12,19 +12,18 @@ export default {
     setup() {
         const user = ref(null);
         const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-            user.value = firebaseUser
-            
             const snapshot = await db.collection('usernames')
                 .where('uid', '==', firebaseUser.uid)
                 .limit(1)
                 .get();
                 
-                if (snapshot.docs.length) {
-                    user.value.username = snapshot.docs[0].id;
-                }
+            if (snapshot.docs.length) {
+                firebaseUser.username = snapshot.docs[0].id;
+            }
+
+            user.value = firebaseUser;
         })
-
-
+        
         return {
             user,
             unsubscribe,
