@@ -9,6 +9,7 @@ import App from './App.vue'
 
 import Home from './pages/Home.vue'
 import ChatRoom from './pages/ChatRoom.vue'
+import Profile from './pages/Profile.vue'
 
 library.add(faPaperPlane, faMicrophone);
 
@@ -25,6 +26,7 @@ const router = new VueRouter({
   routes: [
     {path: '/', component: Home},
     {path: '/chats/:id', component: ChatRoom, name: 'chat'},
+    {path: '/profile/:id?', component: Profile, name: 'profile'},
   ]
 })
 

@@ -4,6 +4,8 @@
       <h1>
         <router-link to="/">CHATTER</router-link>
       </h1>
+
+      <router-link to="/profile">Profile</router-link>
     </header>
 
     <router-view></router-view>
