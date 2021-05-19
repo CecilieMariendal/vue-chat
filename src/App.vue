@@ -2,9 +2,8 @@
   <div id="app">
     <header>
       <h1>
-        <router-link to="/">[insert name]</router-link>
+        <router-link to="/">CHATTER</router-link>
       </h1>
-      <p>Realtime voice chat</p>
     </header>
 
     <router-view></router-view>
@@ -22,6 +21,14 @@ export default class App extends Vue {}
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=KoHo&family=Roboto&display=swap');
+
+:root {
+  --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family-display: 'KoHo', sans-serif;
+  --color-text: #2c3e50
+}
+
 html,
 body {
   height: 100vh;
@@ -32,13 +39,15 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: var(--font-family-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  background: hsla(0, 0%, 95%, 1) radial-gradient(circle, hsl(0, 0%, 95%), hsl(0, 0%, 100%));
+  color: var(--color-text);
 
   > header {
     display: flex;
+    justify-content: space-between;
     align-items: baseline;
     flex-wrap: wrap;
     width: 100%;
@@ -47,18 +56,15 @@ body {
     padding: 8px;
     box-sizing: border-box;
 
-    h1 {
-      margin: 0rem;
-      font-size: 1.5rem;
-
-      a {
-        color: black;
-        text-decoration: none;
-      }
+    a {
+      color: black;
+      text-decoration: none;
     }
 
-    p {
-      margin: 0 0 0 0.5rem;
+    h1 {
+      margin: 0rem;
+      font-family: var(--font-family-display);
+      font-size: 1.5rem,
     }
   }
 }
