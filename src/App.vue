@@ -5,7 +5,7 @@
         <router-link to="/">CHATTER</router-link>
       </h1>
 
-      <router-link to="/profile">Profile</router-link>
+      <router-link to="/profile"><user-icon></user-icon></router-link>
     </header>
 
     <router-view></router-view>
@@ -14,9 +14,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import UserIcon from './components/UserIcon.vue';
 
 @Component({
   components: {
+    UserIcon
   }
 })
 export default class App extends Vue {}

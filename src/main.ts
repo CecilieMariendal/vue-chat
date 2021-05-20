@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueCompositionApi from '@vue/composition-api'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPaperPlane, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faMicrophone, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { firestorePlugin } from 'vuefire'
 import App from './App.vue'
@@ -11,7 +11,7 @@ import Home from './pages/Home.vue'
 import ChatRoom from './pages/ChatRoom.vue'
 import Profile from './pages/Profile.vue'
 
-library.add(faPaperPlane, faMicrophone);
+library.add(faPaperPlane, faMicrophone, faUserCircle);
 
 Vue.use(VueCompositionApi)
 Vue.use(VueRouter)
