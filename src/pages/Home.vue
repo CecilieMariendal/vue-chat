@@ -1,6 +1,9 @@
 <template>
     <main>
         <User>
+            <template #userLoading="{userLoading}">
+                <LoadingSpinner v-if="userLoading" />
+            </template>
             <template #user="{user}">
                 <div v-if="user">
                     <ChatList :uid="user.uid" />
@@ -16,18 +19,21 @@
 import User from '../components/User'
 import ChatList from '../components/ChatList'
 import Login from '../components/Login'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default {
     components: {
         User,
         ChatList,
         Login,
+        LoadingSpinner,
     }
 }
 </script>
 
 <style lang="scss">
 main {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
