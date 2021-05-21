@@ -1,18 +1,19 @@
 <template>
-    <main>
-        <User>
-            <template #userLoading="{userLoading}">
-                <LoadingSpinner v-if="userLoading" />
-            </template>
-            <template #user="{user}">
+    <User>
+        <template #userLoading="{userLoading}">
+            <LoadingSpinner v-if="userLoading" />
+        </template>
+        <template #user="{user}">
+            <main-header :user="user"></main-header>
+            <main>
                 <div v-if="user">
                     <ChatList :uid="user.uid" />
                 </div>
 
                 <Login v-else />
-            </template>
-        </User>
-    </main>
+            </main>
+        </template>
+    </User>
 </template>
 
 <script>
@@ -20,6 +21,7 @@ import User from '../components/User'
 import ChatList from '../components/ChatList'
 import Login from '../components/Login'
 import LoadingSpinner from '../components/LoadingSpinner'
+import MainHeader from '../components/MainHeader'
 
 export default {
     components: {
@@ -27,6 +29,7 @@ export default {
         ChatList,
         Login,
         LoadingSpinner,
+        MainHeader,
     }
 }
 </script>

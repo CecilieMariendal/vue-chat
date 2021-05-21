@@ -1,7 +1,11 @@
 <template>
-    <main>
-        <User>
-            <template #user="{user}">
+    <User>
+        <template #userLoading="{userLoading}">
+            <LoadingSpinner v-if="userLoading" />
+        </template>
+        <template #user="{user}">
+            <main-header :user="user"></main-header>
+            <main>
                 <div v-if="user">
                     <h3 v-if="user.username">{{user.username}}</h3>
                     <h3 v-else-if="user.displayName">{{user.displayName}}</h3>
@@ -17,9 +21,9 @@
                 </div>
 
                 <Login v-else />
-            </template>
-        </User>
-    </main>
+            </main>
+        </template>
+    </User>
 </template>
 
 <script>
@@ -27,12 +31,16 @@ import {auth, db} from '../firebase';
 
 import User from '../components/User';
 import Login from '../components/Login';
+import MainHeader from '../components/MainHeader';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export default {
     components: {
         auth,
         User,
         Login,
+        MainHeader,
+        LoadingSpinner,
     },
     data() {
         return {   

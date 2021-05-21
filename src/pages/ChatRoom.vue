@@ -1,8 +1,12 @@
 <template>
-    <main>
-        <h3>ChatRoom: {{chatId}}</h3>
-        <User>
-            <template #user="{user}">
+    <User>
+        <template #userLoading="{userLoading}">
+            <LoadingSpinner v-if="userLoading" />
+        </template>
+        <template #user="{user}">
+            <main-header :user="user"></main-header>
+            <main>
+                <h3>ChatRoom: {{chatId}}</h3>
                 <template v-if="user">
                     <ul>
                         <li v-for="message of messages" :key="message.id">
@@ -32,22 +36,26 @@
                     </form>
                 </template>
                 <Login v-else />
-            </template>
-        </User>
-    </main>
+            </main>
+        </template>
+    </User>
 </template>
 
 <script>
 import User from '../components/User';
 import ChatMessage from '../components/ChatMessage';
 import Login from '../components/Login';
+import MainHeader from '../components/MainHeader';
+import LoadingSpinner from '../components/LoadingSpinner';
 import {db, storage} from '../firebase';
 
 export default {
     components: {
         User,
         ChatMessage,
-        Login
+        Login,
+        MainHeader,
+        LoadingSpinner,
     },
     computed: {
         chatId() {
@@ -139,6 +147,7 @@ export default {
         }
     }
 }
+
 </script>
 
 <style lang="scss" scoped>
