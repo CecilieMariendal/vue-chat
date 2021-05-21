@@ -1,13 +1,5 @@
 <template>
   <div id="app">
-    <header>
-      <h1>
-        <router-link to="/">CHATTER</router-link>
-      </h1>
-
-      <router-link to="/profile"><user-icon></user-icon></router-link>
-    </header>
-
     <router-view></router-view>
   </div>
 </template>
