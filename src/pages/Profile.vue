@@ -11,7 +11,7 @@
                     <h3 v-else-if="user.displayName">{{user.displayName}}</h3>
                     <h3 v-else-if="user.isAnonymous">Anonymous user</h3>
 
-                    <form v-else @submit.prevent="updateUsername()">
+                    <form @submit.prevent="updateUsername()">
                         <input v-model="newUsername" @input="checkUsername()" type="text" placeholder="username">
                         <p v-if="errorMessage" class="error">{{errorMessage}}</p>
                         <button>Submit</button>

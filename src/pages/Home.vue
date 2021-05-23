@@ -6,10 +6,7 @@
         <template #user="{user}">
             <main-header :user="user"></main-header>
             <main>
-                <div v-if="user">
-                    <ChatList :uid="user.uid" />
-                </div>
-
+                <ChatList v-if="user" :uid="user.uid" />
                 <Login v-else />
             </main>
         </template>
