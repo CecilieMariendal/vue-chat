@@ -34,7 +34,12 @@ export default {
             })
         }
     },
-    props: ['uid']
+    props: {
+        uid: {
+            type: String,
+            required: true,
+        }
+    }
 }
 </script>
 

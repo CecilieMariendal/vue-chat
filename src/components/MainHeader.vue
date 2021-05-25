@@ -15,7 +15,9 @@ export default {
     components: {
         UserIcon
     },
-    props: ['user'],
+    props: {
+        user: Object,
+    },
 }
 </script>
 

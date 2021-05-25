@@ -8,7 +8,11 @@
 
 <script>
 export default {
-    props: ['message', 'messageTx', 'audioUrl'],
+    props: {
+        message: String,
+        messageTx: Boolean,
+        audioUrl: String,
+    },
 }
 </script>
 
