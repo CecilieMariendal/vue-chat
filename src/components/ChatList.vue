@@ -4,6 +4,9 @@
         <ul>
             <li v-for="(chat, index) in chats" :key="chat.id" :style="{animationDelay: 'calc(' + index + '00ms)'}">
                 <router-link :to="{name: 'chat', params: {id: chat.id}}">{{chat.name}}</router-link>
+                <button @click="deleteChat(chat.id)">
+                    <font-awesome-icon :icon="['fas', 'trash-alt']" />
+                </button>
             </li>
         </ul>
 
@@ -28,7 +31,9 @@ export default {
     },
     firestore() {
         return {
-            chats: db.collection('chats').where('owner', '==', this.uid)
+            chats: db.collection('chats')
+                .where('owner', '==', this.uid)
+                .where('achived', '==', false)
         }
     },
     methods: {
@@ -44,6 +49,7 @@ export default {
                 owner: this.uid,
                 members: [this.uid],
                 name: this.chatRoomName,
+                achived: false,
             })
         },
         validateChatName() {
@@ -56,6 +62,11 @@ export default {
             }
 
             return null;
+        },
+       async deleteChat(chatId) {
+            await db.collection('chats').doc(chatId).update({
+                achived: true,
+            })
         }
     },
     props: {
@@ -74,22 +85,36 @@ export default {
         transform: translateY(-10px)
     }
 }
-ul {
-    flex: 1;
-    list-style: none;
-    padding: 0;
-    filter: drop-shadow(4px 4px 10px rgba(200, 200, 200, 0.3));
 
-    li  {
-        margin: 1rem 0;
-        padding: 1rem;
-        background-color: white;
-        overflow: hidden;
-        animation: shiftIn 0.2s reverse backwards;
+div {
+    ul {
+        flex: 1;
+        list-style: none;
+        padding: 0;
+        filter: drop-shadow(4px 4px 10px rgba(200, 200, 200, 0.3));
+
+        li  {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: white;
+            overflow: hidden;
+            animation: shiftIn 0.2s reverse backwards;
+            
+            button {
+                width: 2rem;
+                height: 2rem;
+                border: none;
+                background: var(--color-danger);
+                color: white;
+            }
+        }
     }
-}
-
-button {
-    margin-top: 1.5rem;
+    form {
+        button {
+            margin-top: 1.5rem;
+        }
+    }
 }
 </style>

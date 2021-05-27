@@ -23,6 +23,7 @@ export default class App extends Vue {}
   --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-family-display: 'KoHo', sans-serif;
   --color-text: #2c3e50;
+  --color-danger: #c90000;
   --color-background: hsla(0, 0%, 95%, 1) radial-gradient(circle, hsl(0, 0%, 95%), hsl(0, 0%, 100%));
 }
 
